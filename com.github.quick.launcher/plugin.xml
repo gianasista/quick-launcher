@@ -4,9 +4,9 @@
 
 	<extension point="org.eclipse.ui.commands">
 		<command
-	            name="Choose Ant Target"
+	            name="Choose Target"
 	            defaultHandler="com.github.quick.launcher.ui.LaunchChooseAction"
-	            description="Choose Ant Target"
+	            description="Choose Target"
 	            categoryId="org.eclipse.jdt.ui.category.source"
 	            id="com.github.quick.launcher.ui.chooseaction">
 	   </command>

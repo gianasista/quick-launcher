@@ -25,7 +25,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  */
 public class LaunchFavoriteContentProvider extends LabelProvider implements ITreeContentProvider 
 {
-	List<ILaunchConfiguration> favoriteAntConfigurations = new ArrayList<ILaunchConfiguration>();
+	List<ILaunchConfiguration> favoriteConfigurations = new ArrayList<ILaunchConfiguration>();
 	
 	public LaunchFavoriteContentProvider()
 	{
@@ -35,17 +35,7 @@ public class LaunchFavoriteContentProvider extends LabelProvider implements ITre
 		ILaunchConfiguration[] favorites = history.getFavorites();
 		for(ILaunchConfiguration configuration : favorites)
 		{
-			try
-			{
-				if("org.eclipse.ant.AntLaunchConfigurationType".equals(configuration.getType().getIdentifier()))
-				{
-					favoriteAntConfigurations.add(configuration);
-				}
-			}
-			catch (CoreException e) 
-			{
-				e.printStackTrace();
-			}
+			favoriteConfigurations.add(configuration);
 		}
 	}
 	
@@ -55,7 +45,7 @@ public class LaunchFavoriteContentProvider extends LabelProvider implements ITre
 
 	public Object[] getElements(Object inputElement) 
 	{
-		return favoriteAntConfigurations.toArray();
+		return favoriteConfigurations.toArray();
 	}
 
 	public Object[] getChildren(Object parentElement) 

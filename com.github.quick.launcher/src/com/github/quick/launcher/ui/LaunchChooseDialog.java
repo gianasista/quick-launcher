@@ -1,6 +1,7 @@
 package com.github.quick.launcher.ui;
 
 import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.jface.dialogs.PopupDialog;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -53,7 +54,7 @@ public class LaunchChooseDialog extends PopupDialog implements DisposeListener
         treeViewer.setAutoExpandLevel(AbstractTreeViewer.ALL_LEVELS);
         LaunchFavoriteContentProvider provider = new LaunchFavoriteContentProvider();
 		treeViewer.setContentProvider(provider);
-		treeViewer.setLabelProvider(provider);
+		treeViewer.setLabelProvider(DebugUITools.newDebugModelPresentation());
 		treeViewer.setInput(this);
         
 		final Tree tree = treeViewer.getTree();
