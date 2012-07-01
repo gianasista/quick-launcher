@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="build_complete" name="quick-launcher">
+	<!--<property file="moreant.properties"/>-->
+	
+	<property name="main_number" value="0"/>
+	<property name="major_number" value="5"/>
+	<property name="minor_number" value="0"/>
+
+	<property name="version_number" value="${main_number}.${major_number}.${minor_number}"/>
+	<property name="version_number_file" value="${main_number}_${major_number}_${minor_number}"/>
+
+	<property name="workspace" value="${user.home}/workspaces/eclipse"/>
+	<property name="project_path" value="${user.home}/Dropbox/projects/eclipse/quick-launcher"/>
+	<property name="eclipse_executable" value="/Applications/eclipse37Rcp/eclipse" />
+	<!--<property name="update-site-project" value="${workspace}/com.google.code.moreant.updatesite"/>-->
+
+	<property name="temp_path" value="/tmp"/>
+	<property name="repository_folder" value="repository"/>
+
+	<!--<property name="eclipse_executable" value="/Applications/eclipse36Rcp/eclipse"/>-->
+
+	<property name="p2.build" value="${temp_path}/${repository_folder}"/>
+
+	<!--<property name="p2.repo.location" value="${update-site-project}"/>-->
+		
+	 <target 
+    	name="build_complete" 
+    	depends="update_version_number, prepare_build, build_feature, unzip_feature, metadata, category" 
+    	description="full build and merge with current updatesite">
+        <echo>Build new release version ${version_number}</echo>
+    </target>
+
+	<target name="unzip_feature">
+		<unzip src="${temp_path}/quick-launcher.build/quicklauncherbuild/com.github.quick-launcher.feature-build.zip" dest="${temp_path}/quick-launcher_V_${version_number_file}/"/>
+	</target>
+
+	<target name="refresh">
+		<echo>Refreshing feature.xml, MANIFEST.MF, category.xml</echo>
+		<eclipse.refreshLocal resource="com.github.quick.launcher.feature/feature.xml" depth="infinite"/>
+		<eclipse.refreshLocal resource="com.github.quick.launcher/META-INF/MANIFEST.MF" depth="infinite"/>
+		<eclipse.refreshLocal resource="com.github.quick.launcher/category.xml" depth="infinite"/>
+	</target>
+
+	<target name="metadata">
+		<exec command="${eclipse_executable} -application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher -metadataRepository file:${temp_path}/${repository_folder} -artifactRepository file:${temp_path}/${repository_folder} -source ${temp_path}/moreant_V_${version_number_file}/moreant -compress -publishArtifacts"/>
+	</target>
+
+	<target name="category">
+		<exec command="${eclipse_executable} -application org.eclipse.equinox.p2.publisher.CategoryPublisher -metadataRepository file:${temp_path}/${repository_folder} -categoryDefinition file:/${workspace}/com.google.code.moreant.feature/category.xml -compress"/>
+	</target>
+	
+	<target name="update_version_number">
+		<echo>New version number: ${version_number}</echo>
+		<echo>Update version number in feature.xml</echo>
+		<replaceregexp 
+			file="${project_path}/com.github.quick.launcher.feature/feature.xml" 
+			match="version=&quot;[0-9]\.[0-9]\.[0-9]&quot;" 
+			replace="version=&quot;${version_number}&quot;"
+			byline="true"/>
+		<echo>Update version number in MANIFEST.MF</echo>
+		<replaceregexp 
+			file="${project_path}/com.github.quick.launcher/META-INF/MANIFEST.MF" 
+			match="Bundle-Version: [0-9]\.[0-9]\.[0-9]" 
+			replace="Bundle-Version: ${version_number}"
+			byline="true"/>
+		<echo>Add version to category.xml</echo>
+		<replace file="${project_path}/com.github.quick.launcher.feature/category.xml">
+			<replacetoken><![CDATA[<!-- new release -->]]></replacetoken>
+			<replacevalue><![CDATA[<feature url="features/com.google.code.moreant_X.X.X.jar" id="com.google.code.moreant.feature" version="X.X.X">
+		<category name="quick-launcher"/>
+	</feature>
+	<!-- new release -->]]></replacevalue>
+		</replace>
+		<replace 
+			file="${project_path}/com.github.quick.launcher.feature/category.xml"
+			token="X.X.X" 
+			value="${version_number}"/>
+	</target>
+	
+	<target name="prepare_build">
+		<delete dir="/tmp/quick-launcher.build/"/>
+		<mkdir dir="/tmp/quick-launcher.build/"/>
+		<mkdir dir="/tmp/quick-launcher.build/features"/>
+		<mkdir dir="/tmp/quick-launcher.build/plugins"/>
+		<copydir dest="/tmp/quick-launcher.build/features/com.github.quick.launcher.feature/" src="${project_path}/com.github.quick.launcher.feature"/>
+		<copydir dest="/tmp/quick-launcher.build/plugins/com.github.quick.launcher/" src="${project_path}/com.github.quick.launcher"/>
+	</target>
+	
+    <target name="build_feature" description="description">
+    	<exec command="java -jar /Applications/eclipse36Rcp/plugins/org.eclipse.equinox.launcher_1.1.0.v20100507.jar -application org.eclipse.ant.core.antRunner -buildfile /Applications/eclipse36Rcp/plugins/org.eclipse.pde.build_3.6.0.v20100603/scripts/build.xml -Dbuilder=${project_path}/com.github.quick.launcher.build"/>
+    </target>
+	
+	<!--
+		SVN:
+		commit -m "automated builds" /Users/vera/workspaces/plugindev/com.google.code.moreant/META-INF/MANIFEST.MF
+		
+		mkdir -m "" https://moreant.googlecode.com/svn/tags/V_0_3_0
+		copy -rHEAD https://moreant.googlecode.com/svn/trunk/com.google.code.moreant https://moreant.googlecode.com/svn/tags/V_0_3_0/com.google.code.moreant
+		copy -rHEAD https://moreant.googlecode.com/svn/trunk/com.google.code.moreant.feature https://moreant.googlecode.com/svn/tags/V_0_3_0/com.google.code.moreant.feature
+		copy -rHEAD https://moreant.googlecode.com/svn/trunk/com.google.code.moreant.updatesite https://moreant.googlecode.com/svn/tags/V_0_3_0/com.google.code.moreant.updatesite 
+	 -->
+</project>
