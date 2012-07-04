@@ -95,7 +95,7 @@ public class LaunchChooseDialog extends PopupDialog implements DisposeListener
                 if(tree.equals(e.getSource()))
                 {
                     TreeItem o = tree.getItem(new Point(e.x, e.y));
-                    if(! o.equals(fLastItem))
+                    if(o == null || ! o.equals(fLastItem))
                     {
                         fLastItem = (TreeItem) o;
                         tree.setSelection(new TreeItem[] { fLastItem });
