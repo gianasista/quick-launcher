@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/com.github.quick.launcher.feature_0.5.0.jar" id="com.github.quick.launcher.feature" version="0.5.0">
+   <feature url="features/com.github.quick.launcher.feature_0.5.0.qualifier.jar" id="com.github.quick.launcher.feature" version="0.5.0.qualifier">
       <category name="quick-launcher"/>
    </feature>
    <category-def name="quick-launcher" label="quick-launcher"/>

@@ -2,14 +2,18 @@
 <feature
       id="com.github.quick.launcher.feature"
       label="quick-launcher"
-      version="0.5.0"
+      version="0.5.0.qualifier"
       provider-name="Vera Henneberger">
 
-   <description url="http://moreant.googlecode.com">
-      The plugin offers the possiblity to start your favorite launcher configurations with a keystroke.
+   <description url="https://github.com/gianasista/quick-launcher">
+     Eclipse plugin to start your favorite launch configs with a shortcut. 
+     To use the plugin add a launch configuration from the external tools 
+     config to the favorites. Use the shortcut CTRL + ALT + l to open the 
+     quick start view. If the view does not appear take a look at the key 
+     preferences of eclipse and search for "Choose Target".
    </description>
 
-   <copyright url="http://moreant.googlecode.com">
+   <copyright url="https://github.com/gianasista/quick-launcher">
       Vera Henneberger
    </copyright>
 
@@ -211,17 +215,6 @@ Agreement more than one year after the cause of action arose.
 Each party waives its rights to a jury trial in any resulting
 litigation.
    </license>
-
-   <requires>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.ant.core"/>
-      <import plugin="org.eclipse.ant.ui"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.debug.core"/>
-      <import plugin="org.apache.ant"/>
-      <import plugin="org.eclipse.ui.ide"/>
-   </requires>
 
    <plugin
          id="com.github.quick.launcher"

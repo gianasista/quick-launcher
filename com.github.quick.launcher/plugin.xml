@@ -4,10 +4,10 @@
 
 	<extension point="org.eclipse.ui.commands">
 		<command
-	            name="Choose Target"
+	            name="Choose Launch Targets"
 	            defaultHandler="com.github.quick.launcher.ui.LaunchChooseAction"
-	            description="Choose Target"
-	            categoryId="org.eclipse.jdt.ui.category.source"
+	            description="Choose Launch Targets"
+	            categoryId="org.eclipse.ui.category.views"
 	            id="com.github.quick.launcher.ui.chooseaction">
 	   </command>
 	</extension>
